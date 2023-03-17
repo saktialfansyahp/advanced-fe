@@ -1,0 +1,110 @@
+<template>
+  <div class="container-fluid mt--6">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="mb-0">Update Customer</h3>
+          </div>
+          <div class="card-body">
+            <form @submit.prevent="updateCustomer">
+              <div class="form-group">
+                  <label for="name">Name</label>
+                  <input type="text" class="form-control" id="name" v-model="customers.name">
+              </div>
+              <div class="form-group">
+                <label for="telepon">Phone</label>
+                <input type="text" class="form-control" id="no_telepon" v-model="customers.no_telp">
+              </div>
+              <div class="form-group">
+                <label for="kota">City</label>
+                <input type="text" class="form-control" id="kota" v-model="customers.kota">
+              </div>
+              <div class="form-group">
+                <label for="alamat">Address</label>
+                <input type="text" class="form-control" id="alamat" v-model="customers.alamat">
+              </div>
+              <div class="form-group">
+                <label for="jenis">Type</label>
+                <select class="form-control" id="status" value="Pilih Status" v-model="customers.jenis">
+                    <option value="">Choose Type</option>
+                    <option value="Individu">Individu</option>
+                    <option value="Organisasi">Organization</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" v-model="customers.email">
+              </div>
+              <div class="form-group">
+                  <label for="status">Status</label>
+                  <select class="form-control" id="status" v-model="customers.status">
+                      <option value="">Choose Status</option>
+                      <option value="Active">Active</option>
+                      <option value="Inactive">Inactive</option>
+                  </select>
+              </div>
+              <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import axios from 'axios';
+
+export default {
+  name: "edit-customer",
+  data() {
+    return {
+      customers: {
+        name: "",
+        no_telp: "",
+        kota: "",
+        alamat: "",
+        jenis: "",
+        email: "",
+        status: "",
+      },
+    };
+  },
+  created(){
+    this.fetchData()
+    const custId = this.$route.params.id
+    console.log(custId)
+  },
+  methods: {
+    fetchData(){
+      const customersId = this.$route.params.id
+      axios.get(`http://127.0.0.1:8000/api/auth/getPelanggan/${customersId}`, {
+        headers:{
+          'Authorization': 'Bearer' + localStorage.getItem('access_token')
+        }
+      })
+      .then(response => {
+        this.customers = response.data
+        console.log(response.data)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    },
+    async updateCustomer() {
+      const customersId = this.$route.params.id
+      await axios.post(`http://127.0.0.1:8000/api/auth/updatePelanggan/${customersId}`, this.customers, {
+        headers: {
+          'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+        }
+      })
+      .then(response => {
+        console.log(response.data);
+        this.$router.push('/tables');
+      })
+      .catch(error => console.log(error));
+    }
+  }
+};
+</script>
