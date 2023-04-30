@@ -28,7 +28,7 @@
           <tbody>
             <tr v-for="(customers, index) in customers" :key="index">
               <td>
-                <div class="d-flex px-2 py-1">
+                <div class="d-flex px-3 py-1">
                   <div class="d-flex flex-column justify-content-center">
                     <h6 class="mb-0 text-sm">{{ customers.name }}</h6>
                     <p class="text-xs text-secondary mb-0">{{ customers.email }}</p>

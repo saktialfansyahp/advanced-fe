@@ -2,7 +2,11 @@ import { createRouter, createWebHistory } from "vue-router";
 import Dashboard from "../views/Dashboard.vue";
 import Tables from "../views/Tables.vue";
 import Billing from "../views/Billing.vue";
+import Invoice from "../views/Invoice.vue";
+import Form from "../views/Form.vue";
+import CompletedTransactions from "../views/CompletedTransactions.vue";
 import AddCustomer from "../views/AddCustomer.vue";
+import AddInvoice from "../views/AddInvoice.vue";
 import UpdateCustomer from "../views/UpdateCustomer.vue";
 import VirtualReality from "../views/VirtualReality.vue";
 import Profile from "../views/Profile.vue";
@@ -20,6 +24,9 @@ const routes = [
     path: "/",
     name: "/",
     redirect: "/dashboard",
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: "/dashboard",
@@ -47,9 +54,41 @@ const routes = [
     }
   },
   {
+    path: "/invoice",
+    name: "Invoice",
+    component: Invoice,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: "/form",
+    name: "Form",
+    component: Form,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: "/transactions",
+    name: "Transactions",
+    component: CompletedTransactions,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
     path: "/addCustomer",
     name: "Add Customer",
     component: AddCustomer,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: "/addInvoice",
+    name: "Add Invoice",
+    component: AddInvoice,
     meta: {
       requiresAuth: true
     }
@@ -94,10 +133,10 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('access_token')
-  if (to.matched.some(record => record.meta.requiresAuth) && !token) {
+  if (to.matched.some(record => record.meta.requiresAuth) && token == null) {
     // Jika rute yang dituju memerlukan otentikasi dan tidak ada akses token,
     // maka batalkan navigasi dan arahkan ke halaman login
-    next({ name: 'signin' })
+    next('/signin')
   } else {
     // Jika akses token ada atau rute yang dituju tidak memerlukan otentikasi,
     // maka izinkan navigasi ke rute yang dituju
@@ -111,7 +150,7 @@ router.beforeEach((to, from, next) => {
     this.$router.push('/signin');
   }
   else {
-    this.$router.push('/signin')
+    next()
   }
 })
 

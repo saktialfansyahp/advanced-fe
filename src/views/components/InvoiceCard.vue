@@ -1,97 +1,173 @@
 <template>
-  <div class="card pb-4">
-    <div class="card-header pb-0 p-3">
-      <div class="row">
-        <div class="col-6 d-flex align-items-center">
-          <h6 class="mb-0">Invoices</h6>
-        </div>
-        <div class="col-6 text-end">
-          <argon-button color="success" size="sm" variant="outline">View All</argon-button>
-        </div>
-      </div>
+  <div class="card">
+    <div class="card-header pb-0">
+      <h6>Invoice</h6>
+      <a href="/addInvoice"><argon-button variant="gradient">Add Invoice</argon-button></a>
     </div>
-    <div class="card-body p-3 pb-0 mb-0">
-      <ul class="list-group">
-        <li
-          class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg"
-        >
-          <div class="d-flex flex-column">
-            <h6 class="mb-1 text-dark font-weight-bold text-sm">March, 01, 2020</h6>
-            <span class="text-xs">#MS-415646</span>
-          </div>
-          <div class="d-flex align-items-center text-sm">
-            $180
-            <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4">
-              <i class="fas fa-file-pdf text-lg me-1" aria-hidden="true"></i> PDF
-            </button>
-          </div>
-        </li>
-        <li
-          class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg"
-        >
-          <div class="d-flex flex-column">
-            <h6 class="text-dark mb-1 font-weight-bold text-sm">February, 10, 2021</h6>
-            <span class="text-xs">#RV-126749</span>
-          </div>
-          <div class="d-flex align-items-center text-sm">
-            $250
-            <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4">
-              <i class="fas fa-file-pdf text-lg me-1" aria-hidden="true"></i> PDF
-            </button>
-          </div>
-        </li>
-        <li
-          class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg"
-        >
-          <div class="d-flex flex-column">
-            <h6 class="text-dark mb-1 font-weight-bold text-sm">April, 05, 2020</h6>
-            <span class="text-xs">#FB-212562</span>
-          </div>
-          <div class="d-flex align-items-center text-sm">
-            $560
-            <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4">
-              <i class="fas fa-file-pdf text-lg me-1" aria-hidden="true"></i> PDF
-            </button>
-          </div>
-        </li>
-        <li
-          class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg"
-        >
-          <div class="d-flex flex-column">
-            <h6 class="text-dark mb-1 font-weight-bold text-sm">June, 25, 2019</h6>
-            <span class="text-xs">#QW-103578</span>
-          </div>
-          <div class="d-flex align-items-center text-sm">
-            $120
-            <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4">
-              <i class="fas fa-file-pdf text-lg me-1" aria-hidden="true"></i> PDF
-            </button>
-          </div>
-        </li>
-        <li class="list-group-item border-0 d-flex justify-content-between ps-0 border-radius-lg">
-          <div class="d-flex flex-column">
-            <h6 class="text-dark mb-1 font-weight-bold text-sm">March, 01, 2019</h6>
-            <span class="text-xs">#AR-803481</span>
-          </div>
-          <div class="d-flex align-items-center text-sm">
-            $300
-            <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4">
-              <i class="fas fa-file-pdf text-lg me-1" aria-hidden="true"></i> PDF
-            </button>
-          </div>
-        </li>
-      </ul>
+    <div class="card-body px-0 pt-0 pb-2">
+      <div class="table-responsive p-0">
+        <table class="table align-items-center mb-0">
+          <thead>
+            <tr>
+              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Invoice Number</th>
+              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Customer</th>
+              <th
+                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"
+              >Product</th>
+              <th
+                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"
+              >Invoice Amount</th>
+              <th
+                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"
+              >Due Date</th>
+              <th
+                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"
+              >Status</th>
+              <th
+                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
+              >Action</th>
+              <th class="text-secondary opacity-7"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(transactions, index) in transactions" :key="index">
+              <td>
+                <div class="d-flex px-3 py-1">
+                  <div class="d-flex flex-column justify-content-center">
+                    <h6 class="text-xs font-weight-bold">{{ transactions.no_tagihan}}</h6>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="d-flex px-3 py-1">
+                  <div class="d-flex flex-column justify-content-center">
+                    <h6 class="mb-0 text-sm">{{ transactions.pelanggan.name }}</h6>
+                    <span class="text-secondary text-xs font-weight-bold">{{ transactions.pelanggan.email}}</span>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <span class="text-secondary text-xs font-weight-bold">{{ transactions.produk}}</span>
+              </td>
+              <td>
+                <span class="text-secondary text-xs font-weight-bold">{{ transactions.jumlah_tagihan}}</span>
+              </td>
+              <td>
+                <span class="text-secondary text-xs font-weight-bold">{{ transactions.jatuh_tempo}}</span>
+              </td>
+              <td class="text-sm">
+                <span v-if="transactions.status_tagihan === 'Lunas'" class="badge badge-sm bg-gradient-success">{{ transactions.status_tagihan }}</span>
+                <span v-else class="badge badge-sm bg-gradient-danger">{{ transactions.status_tagihan }}</span>
+              </td>
+              <td class="align-middle text-center">
+                <a href="#" v-if="transactions.status_tagihan === 'Belum Bayar'" @click="sendMail(transactions.pelanggan.email, transactions.pelanggan.name, transactions.no_tagihan)" class="text-secondary font-weight-bold text-xs">
+                  <i :title="'Send Mail'" class="bi bi-send-fill"></i>
+                </a>
+                <a href="#" v-else @click="sendMail(transactions.pelanggan.email, transactions.pelanggan.name)" class="text-secondary font-weight-bold text-xs">
+                  <i :title="'Detail'" class="bi bi-eye-fill"></i>
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import ArgonButton from "@/components/ArgonButton.vue";
+import axios from 'axios';
+import 'bootstrap-icons/font/bootstrap-icons.css'
+import ArgonButton from '@/components/ArgonButton.vue'
+import Swal from 'sweetalert2'
 
 export default {
-  name: "invoice-card",
-  components: {
-    ArgonButton,
+  name: "transactions",
+  data(){
+    return {
+      transactions: [],
+    }
   },
+  components: {
+    ArgonButton
+  },
+  mounted(){
+    this.fetchData()
+  },
+  methods: {
+    fetchData(){
+      axios.get('http://127.0.0.1:8000/api/auth/displayTransaksi', {
+        headers:{
+          'Authorization': 'Bearer' + localStorage.getItem('access_token')
+        }
+      })
+      .then(response => {
+        this.transactions = response.data
+        console.log()
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    },
+    async sendMail(email, name, no_tagihan) {
+      Swal.fire({
+        title: 'Sending email...',
+        text: `Sending email to ${name} at ${email}...`,
+        icon: 'info',
+        showCancelButton: false,
+        showConfirmButton: false,
+        allowOutsideClick: false,
+        allowEscapeKey: false
+      });
+
+      await axios.post(`http://127.0.0.1:8000/api/auth/send`, {
+        subject: 'Send Mail',
+        no_tagihan: no_tagihan,
+        email: email,
+        name: name
+      }, {
+        headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+        }
+      })
+      .then(response => {
+        Swal.fire({
+          title: 'Email sent',
+          icon: 'success',
+          confirmButtonText: 'OK',
+          allowOutsideClick: false,
+          allowEscapeKey: false
+        });
+        console.log(response.status)
+      })
+      .catch(error => {
+        Swal.fire({
+          title: 'Failed to send email',
+          text: error.message,
+          icon: 'error',
+          confirmButtonText: 'OK',
+          allowOutsideClick: false,
+          allowEscapeKey: false
+        });
+      });
+    }
+    // async sendMail(email, name) {
+    //   await axios.post(`http://127.0.0.1:8000/api/auth/send`, {
+    //     subject: 'reminder',
+    //     email: email,
+    //     body: name
+    //   }, {
+    //     headers: {
+    //     'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+    //     }
+    //   })
+    //   .then(response => {
+    //     console.log(response.status)
+    //   })
+    //   .catch(error => {
+    //     console.log(error)
+    //   })
+    // }
+  }
 };
 </script>

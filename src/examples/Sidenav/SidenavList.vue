@@ -39,6 +39,28 @@
           </template>
         </sidenav-item>
       </li>
+      <li class="nav-item">
+        <sidenav-item
+          url="/invoice"
+          :class="getRoute() === 'invoice' ? 'active' : ''"
+          :navText="this.$store.state.isRTL ? 'Table' : 'Invoice'"
+        >
+          <template v-slot:icon>
+            <i class="ni ni-credit-card text-success text-sm opacity-10"></i>
+          </template>
+        </sidenav-item>
+      </li>
+      <li class="nav-item">
+        <sidenav-item
+          url="/form"
+          :class="getRoute() === 'form' ? 'active' : ''"
+          :navText="this.$store.state.isRTL ? 'Table' : 'Form'"
+        >
+          <template v-slot:icon>
+            <i class="ni ni-credit-card text-success text-sm opacity-10"></i>
+          </template>
+        </sidenav-item>
+      </li>
       <!-- <li class="nav-item">
         <sidenav-item
           url="/virtual-reality"

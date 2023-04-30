@@ -92,13 +92,10 @@ export default {
         localStorage.setItem('access_token', response.data.access_token)
         console.log(response.data)
         this.$router.push('/')
-        // .then(() => {
-        //   location.reload()
-        // })
       })
       .catch(error => {
         console.log(error, data)
-        this.errorMessage = 'Email atau Password salah'
+        this.errorMessage = error.response.data.error
       })
     }
   }

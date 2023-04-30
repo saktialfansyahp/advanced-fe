@@ -200,9 +200,9 @@ import axios from "axios";
 
 export default {
   name: "navbar",
-  mounted() {
-    this.fetchData()
-  },
+  // mounted() {
+  //   this.fetchData()
+  // },
   data() {
     return {
       showMenu: false,
@@ -213,29 +213,9 @@ export default {
   props: ["minNav", "textWhite"],
   async created() {
     this.minNav;
+    this.fetchData();
   },
   methods: {
-    logout(){
-      const token = localStorage.getItem('access_token')
-      axios.post('http://127.0.0.1:8000/api/auth/logout', {
-        headers:{
-          'Authorization': 'Bearer' + token
-        }
-      })
-      .then(response => {
-        if(token){
-          localStorage.removeItem('access_token')
-          this.$router.push('/signin')
-          console.log(response.data)
-        } else {
-          console.log('anda belum login')
-        }
-      })
-      .catch(error => {
-        console.log(error)
-        console.log(token)
-      })
-    },
     async fetchData(){
       const token = localStorage.getItem('access_token')
       await axios.get('http://127.0.0.1:8000/api/auth/data', {
@@ -245,12 +225,35 @@ export default {
       })
       .then(response => {
         this.user = response.data
+        this.tokenn = token
         console.log(response.data)
       })
       .catch(error => {
         console.log(error)
+        localStorage.removeItem('access_token')
       })
-    }
+    },
+    async logout(){
+      const token = localStorage.getItem('access_token')
+      await axios.post('http://127.0.0.1:8000/api/auth/logout', {
+        headers:{
+          'Authorization': 'Bearer' + token
+        }
+      })
+      .then(response => {
+        if(this.tokenn){
+          localStorage.removeItem('access_token')
+          this.$router.push('/signin')
+          console.log(response.data)
+        } else {
+          console.log('anda belum login')
+        }
+      })
+      .catch(error => {
+        console.log(error)
+        console.log(this.tokenn)
+      })
+    },
   },
   components: {
     Breadcrumbs,
