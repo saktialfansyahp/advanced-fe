@@ -5,23 +5,34 @@
         <div class="row">
           <div class="col-lg-3 col-md-6 col-12">
             <card
+              :title="'Customers'"
+              :value="totalCustomer"
+              :percentage="percentageIncrease" 
+              :iconClass="stats.users.iconClass"
+              :iconBackground="stats.users.iconBackground"
+              :detail="'since last week'"
+              directionReverse
+              v-if="role === 'admin'"
+            ></card>
+            <card
+              :title="'Invoice'"
+              :value="5"
+              :percentage="stats.users.percentage"
+              :iconClass="stats.users.iconClass"
+              :iconBackground="stats.users.iconBackground"
+              :detail="stats.users.detail"
+              directionReverse
+              v-if="role === 'customer'"
+            ></card>
+          </div>
+          <div class="col-lg-3 col-md-6 col-12">
+            <card
               :title="stats.money.title"
               :value="stats.money.value"
               :percentage="stats.money.percentage"
               :iconClass="stats.money.iconClass"
               :iconBackground="stats.money.iconBackground"
               :detail="stats.money.detail"
-              directionReverse
-            ></card>
-          </div>
-          <div class="col-lg-3 col-md-6 col-12">
-            <card
-              :title="stats.users.title"
-              :value="totalCustomer"
-              :percentage="stats.users.percentage"
-              :iconClass="stats.users.iconClass"
-              :iconBackground="stats.users.iconBackground"
-              :detail="stats.users.detail"
               directionReverse
             ></card>
           </div>
@@ -60,54 +71,6 @@
             <carousel />
           </div>
         </div>
-        <div class="row mt-4">
-          <div class="col-lg-7 mb-lg-0 mb-4">
-            <div class="card">
-              <div class="p-3 pb-0 card-header">
-                <div class="d-flex justify-content-between">
-                  <h6 class="mb-2">Sales by Country</h6>
-                </div>
-              </div>
-              <div class="table-responsive">
-                <table class="table align-items-center">
-                  <tbody>
-                    <tr v-for="(sale, index) in sales" :key="index">
-                      <td class="w-30">
-                        <div class="px-2 py-1 d-flex align-items-center">
-                          <div>
-                            <img :src="sale.flag" alt="Country flag" />
-                          </div>
-                          <div class="ms-4">
-                            <p class="mb-0 text-xs font-weight-bold">Country:</p>
-                            <h6 class="mb-0 text-sm">{{ sale.country }}</h6>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="text-center">
-                          <p class="mb-0 text-xs font-weight-bold">Sales:</p>
-                          <h6 class="mb-0 text-sm">{{ sale.sales }}</h6>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="text-center">
-                          <p class="mb-0 text-xs font-weight-bold">Value:</p>
-                          <h6 class="mb-0 text-sm">{{ sale.value }}</h6>
-                        </div>
-                      </td>
-                      <td class="text-sm align-middle">
-                        <div class="text-center col">
-                          <p class="mb-0 text-xs font-weight-bold">Bounce:</p>
-                          <h6 class="mb-0 text-sm">{{ sale.bounce }}</h6>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -122,7 +85,11 @@ export default {
   name: "dashboard-default",
   data() {
     return {
+      transactions: [],
+      lastWeekDate: null,
+      role: null,
       totalCustomer: "",
+      percentageIncrease: "",
       stats: {
         money: {
           title: "Today's Money",
@@ -133,7 +100,7 @@ export default {
           iconBackground: "bg-gradient-primary",
         },
         users: {
-          title: "Customer",
+          title: "Customers",
           value: "2,300",
           percentage: "+3%",
           iconClass: "ni ni-world",
@@ -168,11 +135,21 @@ export default {
     GradientLineChart,
     Carousel,
   },
+  created(){
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user) {
+      this.role = user.role;
+    }
+  },
   mounted(){
-    this.fetchData()
+    this.fetchCustomers()
   },
   methods: {
-    fetchData(){
+    fetchCustomers() {
+      const today = new Date();
+      const lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
+      this.lastWeekDate = lastWeek.toISOString();
+      
       axios.get('http://127.0.0.1:8000/api/auth/displayPelanggan', {
         headers:{
           'Authorization': 'Bearer' + localStorage.getItem('access_token')
@@ -180,12 +157,59 @@ export default {
       })
       .then(response => {
         this.totalCustomer = response.data.length
-        console.log(response.data)
+        const customers = response.data;
+        const lastWeekDate = new Date();
+        lastWeekDate.setDate(lastWeekDate.getDate() - 7);
+
+        const customersLastWeek = customers.filter(customer => {
+          const updatedAt = new Date(customer.updated_at);
+          return updatedAt >= lastWeekDate;
+        });
+
+        this.totalCustomer = customers.length;
+        this.totalCustomerLastWeek = customersLastWeek.length;
+        const percentageIncrease = ((this.totalCustomer - this.totalCustomerLastWeek) / this.totalCustomerLastWeek) * 100;
+        this.percentageIncrease = percentageIncrease + "%";
+        console.log(customersLastWeek);
+        console.log(this.percentageIncrease)
       })
       .catch(error => {
         console.log(error)
       })
     },
+    fetchProduct() {
+      const today = new Date();
+      const lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
+      this.lastWeekDate = lastWeek.toISOString();
+      
+      axios.get('http://127.0.0.1:8000/api/auth/displayPelanggan', {
+        headers:{
+          'Authorization': 'Bearer' + localStorage.getItem('access_token')
+        }
+      })
+      .then(response => {
+        this.totalCustomer = response.data.length
+        const customers = response.data;
+        const lastWeekDate = new Date();
+        lastWeekDate.setDate(lastWeekDate.getDate() - 7);
+
+        const customersLastWeek = customers.filter(customer => {
+          const updatedAt = new Date(customer.updated_at);
+          return updatedAt >= lastWeekDate;
+        });
+
+        this.totalCustomer = customers.length;
+        this.totalCustomerLastWeek = customersLastWeek.length;
+        const percentageIncrease = ((this.totalCustomer - this.totalCustomerLastWeek) / this.totalCustomerLastWeek) * 100;
+        this.percentageIncrease = percentageIncrease + "%";
+        console.log(customersLastWeek);
+        console.log(this.percentageIncrease)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    },
+
   }
 };
 </script>

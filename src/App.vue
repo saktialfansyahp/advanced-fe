@@ -4,6 +4,7 @@
     class="landing-bg h-100 bg-gradient-primary position-fixed w-100"
   ></div>
   <sidenav
+    :toggle="sideNav"
     :custom_class="this.$store.state.mcolor"
     :class="[
       this.$store.state.isTransparent,
@@ -50,8 +51,11 @@ export default {
     Navbar,
     AppFooter
   },
+  state: {
+    showSidenav: true
+  },
   methods: {
-    ...mapMutations(["toggleConfigurator", "navbarMinimize"])
+    ...mapMutations(["toggleConfigurator", "navbarMinimize", "sideNav"]),
   },
   computed: {
     navClasses() {
@@ -70,10 +74,11 @@ export default {
     this.$store.state.isTransparent = "bg-transparent";
   },
   created() {
+    localStorage.setItem('status', '200')
     const token = localStorage.getItem('access_token')
     if (token) {
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
     }
-  }
+  },
 };
 </script>

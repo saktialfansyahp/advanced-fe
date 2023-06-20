@@ -9,36 +9,52 @@
           <div class="card-body">
             <form @submit.prevent="updateCustomer">
               <div class="form-group">
-                  <label for="name">Name</label>
-                  <input type="text" class="form-control" id="name" v-model="customers.name">
+                  <label for="firstname">Firstname</label>
+                  <input type="text" class="form-control" id="firstname" v-model="customers.firstname">
               </div>
               <div class="form-group">
-                <label for="telepon">Phone</label>
-                <input type="text" class="form-control" id="no_telepon" v-model="customers.no_telp">
+                <label for="lastname">Lastname</label>
+                <input type="text" class="form-control" id="lastname" v-model="customers.lastname">
               </div>
               <div class="form-group">
-                <label for="kota">City</label>
-                <input type="text" class="form-control" id="kota" v-model="customers.kota">
-              </div>
-              <div class="form-group">
-                <label for="alamat">Address</label>
-                <input type="text" class="form-control" id="alamat" v-model="customers.alamat">
-              </div>
-              <div class="form-group">
-                <label for="jenis">Type</label>
-                <select class="form-control" id="status" value="Pilih Status" v-model="customers.jenis">
-                    <option value="">Choose Type</option>
-                    <option value="Individu">Individu</option>
-                    <option value="Organisasi">Organization</option>
-                </select>
+                <label for="username">Username</label>
+                <input type="text" class="form-control" id="username" v-model="customers.username">
               </div>
               <div class="form-group">
                 <label for="email">Email</label>
-                <input type="email" class="form-control" id="email" v-model="customers.email">
+                <input type="email" class="form-control" id="email" v-model="customers.email" >
+              </div>
+              <div class="form-group">
+                <label for="address">Address</label>
+                <input type="text" class="form-control" id="address" v-model="customers.address">
+              </div>
+              <div class="form-group">
+                <label for="no_telp">Phone</label>
+                <input type="text" class="form-control" id="no_telepon" v-model="customers.pelanggan.no_telp">
+              </div>
+              <div class="form-group">
+                <label for="role">Role</label>
+                  <select class="form-control" id="role" value="Choose Role" v-model="customers.role">
+                      <option value="">Choose Type</option>
+                      <option value="admin">Admin</option>
+                      <option value="customer">Customer</option>
+                  </select>
+              </div>
+              <div class="form-group">
+                <label for="kota">City</label>
+                <input type="text" class="form-control" id="kota" v-model="customers.pelanggan.kota">
+              </div>
+              <div class="form-group">
+                <label for="jenis">Type</label>
+                  <select class="form-control" id="status" value="Pilih Status" v-model="customers.pelanggan.jenis">
+                      <option value="">Choose Type</option>
+                      <option value="Individu">Individu</option>
+                      <option value="Organisasi">Organization</option>
+                  </select>
               </div>
               <div class="form-group">
                   <label for="status">Status</label>
-                  <select class="form-control" id="status" v-model="customers.status">
+                  <select class="form-control" id="status" value="Pilih Status" v-model="customers.pelanggan.status">
                       <option value="">Choose Status</option>
                       <option value="Active">Active</option>
                       <option value="Inactive">Inactive</option>
@@ -61,13 +77,18 @@ export default {
   data() {
     return {
       customers: {
-        name: "",
-        no_telp: "",
-        kota: "",
-        alamat: "",
-        jenis: "",
+        firstname: "",
+        lastname: "",
+        username: "",
         email: "",
-        status: "",
+        address: "",
+        role: "",
+        pelanggan: {
+          kota: "",
+          status: "",
+          no_telp: "",
+          jenis: "",
+        }
       },
     };
   },
@@ -92,9 +113,9 @@ export default {
         console.log(error)
       })
     },
-    async updateCustomer() {
+    updateCustomer() {
       const customersId = this.$route.params.id
-      await axios.post(`http://127.0.0.1:8000/api/auth/updatePelanggan/${customersId}`, this.customers, {
+      axios.post(`http://127.0.0.1:8000/api/auth/update/${customersId}`, this.customers, {
         headers: {
           'Authorization': 'Bearer ' + localStorage.getItem('access_token')
         }

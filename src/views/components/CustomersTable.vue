@@ -14,6 +14,9 @@
                 class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"
               >Address</th>
               <th
+                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"
+              >Jenis</th>
+              <th
                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
               >Status</th>
               <th
@@ -30,14 +33,17 @@
               <td>
                 <div class="d-flex px-3 py-1">
                   <div class="d-flex flex-column justify-content-center">
-                    <h6 class="mb-0 text-sm">{{ customers.name }}</h6>
-                    <p class="text-xs text-secondary mb-0">{{ customers.email }}</p>
+                    <h6 class="mb-0 text-sm">{{ customers.user.firstname }} {{ customers.user.lastname }}</h6>
+                    <p class="text-xs text-secondary mb-0">{{ customers.user.email }}</p>
                   </div>
                 </div>
               </td>
               <td>
                 <p class="text-xs font-weight-bold mb-0">{{ customers.kota }}</p>
-                <p class="text-xs text-secondary mb-0">{{ customers.alamat }}</p>
+                <p class="text-xs text-secondary mb-0">{{ customers.user.address }}</p>
+              </td>
+              <td>
+                <p class="text-xs font-weight-bold mb-0">{{ customers.jenis }}</p>
               </td>
               <td class="align-middle text-center text-sm">
                 <span v-if="customers.status === 'Active'" class="badge badge-sm bg-gradient-success">{{ customers.status }}</span>
@@ -47,10 +53,10 @@
                 <span class="text-secondary text-xs font-weight-bold">{{ customers.no_telp}}</span>
               </td>
               <td class="align-middle text-center">
-                <a :href="'/updateCustomer' + '/' + customers.id" class="text-secondary font-weight-bold text-xs me-2">
+                <a :href="'/updateCustomer' + '/' + customers.user.id" class="text-secondary font-weight-bold text-xs me-2">
                   <span class="text-secondary text-xs font-weight-bold">Edit</span>
                 </a>
-                <a href="#" @click="deleteCustomer(customers.id)" class="text-secondary font-weight-bold text-xs">
+                <a href="#" @click="deleteCustomer(customers.user.id)" class="text-secondary font-weight-bold text-xs">
                   <i class="bi bi-trash ms-2"></i>
                 </a>
               </td>
@@ -82,6 +88,7 @@ export default {
   },
   methods: {
     fetchData(){
+      // axios.get('http://127.0.0.1:8000/api/auth/data', {
       axios.get('http://127.0.0.1:8000/api/auth/displayPelanggan', {
         headers:{
           'Authorization': 'Bearer' + localStorage.getItem('access_token')
@@ -89,23 +96,25 @@ export default {
       })
       .then(response => {
         this.customers = response.data
-        console.log(response.data)
+        // .filter(data => data.role === 'customer')
+        console.log(this.customers)
       })
       .catch(error => {
         console.log(error)
       })
     },
     deleteCustomer(id) {
-    axios.post(`http://127.0.0.1:8000/api/auth/deletePelanggan/${id}`, {
-      headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
-      }
-    })
-    .then(response => {
-      console.log(response.data);
-      this.fetchData();
-    })
-    .catch(error => console.log(error));
+      axios.post(`http://127.0.0.1:8000/api/auth/destroy/${id}`, {
+        headers: {
+          'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+        }
+      })
+      .then(response => {
+        console.log(response.data);
+        console.log(id)
+        this.fetchData();
+      })
+      .catch(error => console.log(error));
     }
   }
 };

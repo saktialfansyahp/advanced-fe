@@ -8,7 +8,7 @@
         <sidenav-item
           url="/dashboard"
           :class="getRoute() === 'dashboard-default' ? 'active' : ''"
-          :navText="this.$store.state.isRTL ? 'Table' : 'Dashboard'"
+          :navText="this.$store.state.isRTL ? 'Table' : ''"
         >
           <template v-slot:icon>
             <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
@@ -19,7 +19,7 @@
         <sidenav-item
           url="/tables"
           :class="getRoute() === 'tables' ? 'active' : ''"
-          :navText="this.$store.state.isRTL ? 'Table' : 'Customers'"
+          :navText="this.$store.state.isRTL ? 'Table' : ''"
           v-if="role === 'admin'"
         >
           <template v-slot:icon>
@@ -33,7 +33,7 @@
         <sidenav-item
           url="/invoice"
           :class="getRoute() === 'invoice' ? 'active' : ''"
-          :navText="this.$store.state.isRTL ? 'Table' : 'Invoice'"
+          :navText="this.$store.state.isRTL ? 'Table' : ''"
           v-if="role === 'admin'"
         >
           <template v-slot:icon>
@@ -45,7 +45,7 @@
         <sidenav-item
           url="/product"
           :class="getRoute() === 'product' ? 'active' : ''"
-          :navText="this.$store.state.isRTL ? 'Table' : 'Product'"
+          :navText="this.$store.state.isRTL ? 'Table' : ''"
           v-if="role === 'admin'"
         >
           <template v-slot:icon>
@@ -57,7 +57,7 @@
         <sidenav-item
           url="/form"
           :class="getRoute() === 'form' ? 'active' : ''"
-          :navText="this.$store.state.isRTL ? 'Table' : 'Product'"
+          :navText="this.$store.state.isRTL ? 'Table' : ''"
           v-if="role === 'customer'"
         >
           <template v-slot:icon>
@@ -69,7 +69,7 @@
         <sidenav-item
           url="/form"
           :class="getRoute() === 'form' ? 'active' : ''"
-          :navText="this.$store.state.isRTL ? 'Table' : 'Whatsapp Form'"
+          :navText="this.$store.state.isRTL ? 'Table' : ''"
           v-if="role === 'customer'"
         >
           <template v-slot:icon>
@@ -81,7 +81,7 @@
         <sidenav-item
           url="/settings"
           :class="getRoute() === 'settings' ? 'active' : ''"
-          :navText="this.$store.state.isRTL ? '' : 'Setting'"
+          :navText="this.$store.state.isRTL ? '' : ''"
           v-if="role === 'admin'"
         >
           <template v-slot:icon>
@@ -108,7 +108,7 @@ import SidenavItem from "./SidenavItem.vue";
 // import { mapActions } from 'vuex';
 
 export default {
-  name: "SidenavList",
+  name: "SidenavMin",
   props: {
     cardBg: String
   },

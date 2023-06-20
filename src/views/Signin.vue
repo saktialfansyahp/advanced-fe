@@ -41,8 +41,9 @@
 import ArgonInput from "@/components/ArgonInput.vue";
 // import ArgonCheckbox from "@/components/ArgonCheckbox.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
-import axios from 'axios';
+// import axios from 'axios';
 import ArgonAlert from "@/components/ArgonAlert.vue";
+import { mapActions } from 'vuex';
 
 const body = document.getElementsByTagName("body")[0];
 
@@ -68,35 +69,60 @@ export default {
     this.$store.state.showFooter = false;
     body.classList.remove("bg-gray-100");
   },
-  beforeUnmount() {
+  unmounted() {
     // this.$store.state.hideConfigButton = false;
     this.$store.state.showNavbar = true;
     this.$store.state.showSidenav = true;
     this.$store.state.showFooter = true;
     body.classList.add("bg-gray-100");
+    console.log('halo')
+    location.reload()
   },
   methods: {
-    emailvalue(email){
-      this.email = email.target.value
-    },
-    passwordvalue(password){
-      this.password = password.target.value
-    },
-    async submitForm(){
-      const data = {
+    // emailvalue(email){
+    //   this.email = email.target.value
+    // },
+    // passwordvalue(password){
+    //   this.password = password.target.value
+    // },
+    // async submitForm(){
+    //   const data = {
+    //     email: this.email,
+    //     password: this.password,
+    //   };
+    //   await axios.post('http://localhost:8000/api/auth/login/', data)
+    //   .then(response => {
+    //     localStorage.setItem('access_token', response.data.access_token)
+    //     console.log(response.data)
+    //     this.$router.push('/')
+    //   })
+    //   .catch(error => {
+    //     console.log(error, data)
+    //     this.errorMessage = error.response.data.error
+    //   })
+    // },
+    ...mapActions(['login']),
+    submitForm() {
+      const credentials = {
         email: this.email,
-        password: this.password,
+        password: this.password
       };
-      await axios.post('http://localhost:8000/api/auth/login/', data)
-      .then(response => {
-        localStorage.setItem('access_token', response.data.access_token)
-        console.log(response.data)
-        this.$router.push('/')
-      })
-      .catch(error => {
-        console.log(error, data)
-        this.errorMessage = error.response.data.error
-      })
+
+      this.login(credentials)
+        .then(() => {
+          // Login berhasil, lakukan tindakan lain jika diperlukan
+          this.$router.push('/')
+        })
+        .catch(error => {
+          // Tangani kesalahan saat login
+          console.error(error);
+        });
+    },
+    emailvalue(email) {
+      this.email = email.target.value;
+    },
+    passwordvalue(password) {
+      this.password = password.target.value;
     }
   }
 };

@@ -45,8 +45,7 @@
             >
             <div class="py-1 d-flex align-items-center">
               <div class="d-flex flex-column justify-content-center">
-                <span v-if="user" class="font-weight-bold text-black">{{ user.firstname }} {{ user.lastname }}</span>
-                <span v-if="!user" class="font-weight-bold text-black">You are not logged in!</span>
+                <span v-if="getUser" class="font-weight-bold text-black">{{ getUser.firstname }} {{ getUser.lastname }}</span>
               </div>
             </div>
             </a>
@@ -63,7 +62,7 @@
                 </router-link>
               </li>
               <li class="mb-2">
-                <a @click="logout" class="dropdown-item border-radius-md">
+                <a @click="handleLogout" class="dropdown-item border-radius-md">
                   <div class="py-1 d-flex">
                     <div class="d-flex flex-column justify-content-center">
                       <span class="font-weight-bold cursor-pointer">Logout</span>
@@ -196,7 +195,9 @@
 </template>
 <script>
 import Breadcrumbs from "../Breadcrumbs.vue";
-import axios from "axios";
+import { mapGetters } from 'vuex';
+import { mapActions } from 'vuex';
+
 
 export default {
   name: "navbar",
@@ -207,61 +208,77 @@ export default {
     return {
       showMenu: false,
       showOption: false,
-      user: null,
+      // user: null,
     };
-  },
-  props: ["minNav", "textWhite"],
-  async created() {
-    this.minNav;
-    this.fetchData();
-  },
-  methods: {
-    async fetchData(){
-      const token = localStorage.getItem('access_token')
-      await axios.get('http://127.0.0.1:8000/api/auth/data', {
-        headers:{
-          'Authorization': 'Bearer' + token
-        }
-      })
-      .then(response => {
-        this.user = response.data
-        this.tokenn = token
-        console.log(response.data)
-      })
-      .catch(error => {
-        console.log(error)
-        localStorage.removeItem('access_token')
-      })
-    },
-    async logout(){
-      const token = localStorage.getItem('access_token')
-      await axios.post('http://127.0.0.1:8000/api/auth/logout', {
-        headers:{
-          'Authorization': 'Bearer' + token
-        }
-      })
-      .then(response => {
-        if(this.tokenn){
-          localStorage.removeItem('access_token')
-          this.$router.push('/signin')
-          console.log(response.data)
-        } else {
-          console.log('anda belum login')
-        }
-      })
-      .catch(error => {
-        console.log(error)
-        console.log(this.tokenn)
-      })
-    },
-  },
-  components: {
-    Breadcrumbs,
   },
   computed: {
     currentRouteName() {
       return this.$route.name;
+    },
+    ...mapGetters(['getUser'])
+  },
+  props: ["minNav", "textWhite"],
+  async created() {
+    this.minNav;
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user) {
+      this.$store.commit('setUser', user);
     }
+    // this.fetchData()
+  },
+  methods: {
+    // async fetchData(){
+    //   const token = localStorage.getItem('access_token')
+    //   await axios.get('http://127.0.0.1:8000/api/auth/data', {
+    //     headers:{
+    //       'Authorization': 'Bearer' + token
+    //     }
+    //   })
+    //   .then(response => {
+    //     this.user = response.data
+    //     this.tokenn = token
+    //     console.log(response.data)
+    //   })
+    //   .catch(error => {
+    //     console.log(error)
+    //     localStorage.removeItem('access_token')
+    //   })
+    // },
+    // async logout(){
+    //   const token = localStorage.getItem('access_token')
+    //   await axios.post('http://127.0.0.1:8000/api/auth/logout', {
+    //     headers:{
+    //       'Authorization': 'Bearer' + token
+    //     }
+    //   })
+    //   .then(response => {
+    //     if(this.tokenn){
+    //       localStorage.removeItem('access_token')
+    //       this.$router.push('/signin')
+    //       console.log(response.data)
+    //     } else {
+    //       console.log('anda belum login')
+    //     }
+    //   })
+    //   .catch(error => {
+    //     console.log(error)
+    //     console.log(this.tokenn)
+    //   })
+    // },
+    ...mapActions(['logout']),
+    handleLogout() {
+      this.logout()
+        .then(() => {
+          this.$store.commit('setUser', null);
+        })
+        .catch(error => {
+          // Tangani kesalahan saat logout
+          console.error(error);
+        });
+    }
+  },
+  components: {
+    Breadcrumbs,
   },
 };
 </script>
