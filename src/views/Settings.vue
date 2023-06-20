@@ -16,7 +16,7 @@
                 </div>
                 <div class="form-group">
                   <label for="time">Time:</label>
-                  <input type="time" id="time" class="form-control" v-model="status.time" />
+                  <input type="time" id="time" class="form-control" v-model="status.time" step="3600" />
                 </div>
                 <div class="form-group">
                   <label for="daysToReminder">Days to Reminder 1:</label>
