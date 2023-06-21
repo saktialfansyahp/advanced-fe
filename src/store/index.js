@@ -65,7 +65,7 @@ export default createStore({
     login({ commit }, credentials) {
       return new Promise((resolve, reject) => {
         // Lakukan permintaan HTTP menggunakan Axios
-        axios.post('http://alfajri.arw.my.id/api/auth/login/', credentials)
+        axios.post('https://alfajri.arw.my.id/api/auth/login/', credentials)
         .then(response => {
           localStorage.setItem('access_token', response.data.access_token)
           const user = response.data.data;
