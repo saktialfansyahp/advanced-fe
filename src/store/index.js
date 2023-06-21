@@ -82,7 +82,7 @@ export default createStore({
       return new Promise((resolve, reject) => {
         // Lakukan permintaan HTTP menggunakan Axios
         const token = localStorage.getItem('access_token')
-        axios.post('http://localhost:8000/api/auth/logout/', {
+        axios.post('https://alfajri.arw.my.id/api/auth/logout', {
           headers:{
             'Authorization': 'Bearer' + token
           }
