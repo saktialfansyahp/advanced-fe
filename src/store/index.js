@@ -67,6 +67,7 @@ export default createStore({
         // Lakukan permintaan HTTP menggunakan Axios
         axios.post('https://alfajri.arw.my.id/api/auth/login/', credentials)
         .then(response => {
+          console.log(response)
           localStorage.setItem('access_token', response.data.access_token)
           const user = response.data.data;
           localStorage.setItem('user', JSON.stringify(user));
