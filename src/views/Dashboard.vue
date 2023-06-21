@@ -169,7 +169,7 @@ export default {
         this.totalCustomer = customers.length;
         this.totalCustomerLastWeek = customersLastWeek.length;
         const percentageIncrease = ((this.totalCustomer - this.totalCustomerLastWeek) / this.totalCustomerLastWeek) * 100;
-        this.percentageIncrease = percentageIncrease + "%";
+        this.percentageIncrease = percentageIncrease.toFixed(2) + "%";
         console.log(customersLastWeek);
         console.log(this.percentageIncrease)
       })
@@ -201,7 +201,7 @@ export default {
         this.totalCustomer = customers.length;
         this.totalCustomerLastWeek = customersLastWeek.length;
         const percentageIncrease = ((this.totalCustomer - this.totalCustomerLastWeek) / this.totalCustomerLastWeek) * 100;
-        this.percentageIncrease = percentageIncrease.toFixed(2) + "%";
+        this.percentageIncrease = percentageIncrease + "%";
         console.log(customersLastWeek);
         console.log(this.percentageIncrease)
       })
