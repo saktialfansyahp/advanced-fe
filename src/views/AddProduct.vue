@@ -67,7 +67,7 @@ export default {
   },
   methods: {
     async submitForm() {
-      await axios.post('http://127.0.0.1:8000/api/auth/createProduk', this.form, {
+      await axios.post('https://alfajri.arw.my.id/api/auth/createProduk', this.form, {
         headers: {
           'Authorization': 'Bearer' + localStorage.getItem('access_token')
         }

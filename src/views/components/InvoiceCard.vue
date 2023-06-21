@@ -128,7 +128,7 @@ export default {
   // },
   methods: {
     cek(no_tagihan, status_tagihan){
-      axios.post(`http://127.0.0.1:8000/api/auth/updateTransaksi/${no_tagihan}`, {
+      axios.post(`https://alfajri.arw.my.id/api/auth/updateTransaksi/${no_tagihan}`, {
         status_tagihan: status_tagihan,
       }, {
         headers: {
@@ -148,8 +148,8 @@ export default {
       }
     },
     fetchData(){
-      // axios.get('http://127.0.0.1:8000/api/auth/displayTransaksi?sort=invoice_number&order=asc', {
-      axios.get('http://127.0.0.1:8000/api/auth/displayTransaksi', {
+      // axios.get('https://alfajri.arw.my.id/api/auth/displayTransaksi?sort=invoice_number&order=asc', {
+      axios.get('https://alfajri.arw.my.id/api/auth/displayTransaksi', {
         headers:{
           'Authorization': 'Bearer' + localStorage.getItem('access_token')
         }
@@ -209,7 +209,7 @@ export default {
         produk: this.product
       };
 
-      await axios.post(`http://127.0.0.1:8000/api/auth/send`, requestData, {
+      await axios.post(`https://alfajri.arw.my.id/api/auth/send`, requestData, {
         headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('access_token')
         }
@@ -259,7 +259,7 @@ export default {
         produk: this.product
       };
 
-      await axios.post(`http://127.0.0.1:8000/api/auth/pdf`, requestData, { responseType: 'blob' }, {
+      await axios.post(`https://alfajri.arw.my.id/api/auth/pdf`, requestData, { responseType: 'blob' }, {
         headers: {
           'Authorization': 'Bearer ' + localStorage.getItem('access_token')
         },
@@ -288,7 +288,7 @@ export default {
         allowEscapeKey: false
       });
       const name = firstname + ' ' + lastname
-      await axios.post(`http://127.0.0.1:8000/api/auth/whatsapp`, {
+      await axios.post(`https://alfajri.arw.my.id/api/auth/whatsapp`, {
         no_telp: no_telp,
         name: name,
         jatuh_tempo: jatuh_tempo
@@ -320,7 +320,7 @@ export default {
       });
     },
     // async sendMail(email, name) {
-    //   await axios.post(`http://127.0.0.1:8000/api/auth/send`, {
+    //   await axios.post(`https://alfajri.arw.my.id/api/auth/send`, {
     //     subject: 'reminder',
     //     email: email,
     //     body: name

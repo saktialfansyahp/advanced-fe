@@ -104,7 +104,7 @@ export default {
     },
     methods: {
       async fetchData() {
-        await axios.get('http://127.0.0.1:8000/api/auth/dataUser', {
+        await axios.get('https://alfajri.arw.my.id/api/auth/dataUser', {
           headers:{
             'Authorization': 'Bearer' + localStorage.getItem('access_token')
           }
@@ -125,7 +125,7 @@ export default {
         })
       },
       updateEmail(){
-        axios.get('http://127.0.0.1:8000/api/auth/dataUser', {
+        axios.get('https://alfajri.arw.my.id/api/auth/dataUser', {
           headers:{
             'Authorization': 'Bearer' + localStorage.getItem('access_token')
           }
@@ -150,7 +150,7 @@ export default {
         })
       },
       async submitForm(){
-          await axios.post('http://127.0.0.1:8000/api/auth/register', this.form, {
+          await axios.post('https://alfajri.arw.my.id/api/auth/register', this.form, {
               headers:{
               'Authorization': 'Bearer' + localStorage.getItem('access_token')
               }

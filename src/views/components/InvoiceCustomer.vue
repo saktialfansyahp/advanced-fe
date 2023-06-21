@@ -122,7 +122,7 @@ export default {
       }
     },
     fetchData(){
-      axios.get('http://127.0.0.1:8000/api/auth/displayTransaksi', {
+      axios.get('https://alfajri.arw.my.id/api/auth/displayTransaksi', {
         headers:{
           'Authorization': 'Bearer' + localStorage.getItem('access_token')
         }
@@ -146,7 +146,7 @@ export default {
         allowEscapeKey: false
       });
 
-      await axios.post(`http://127.0.0.1:8000/api/auth/send`, {
+      await axios.post(`https://alfajri.arw.my.id/api/auth/send`, {
         subject: 'Send Mail',
         no_tagihan: no_tagihan,
         email: email,
@@ -188,7 +188,7 @@ export default {
         allowEscapeKey: false
       });
       const name = firstname + ' ' + lastname
-      await axios.post(`http://127.0.0.1:8000/api/auth/whatsapp`, {
+      await axios.post(`https://alfajri.arw.my.id/api/auth/whatsapp`, {
         no_telp: no_telp,
         name: name,
         jatuh_tempo: jatuh_tempo
@@ -220,7 +220,7 @@ export default {
       });
     },
     // async sendMail(email, name) {
-    //   await axios.post(`http://127.0.0.1:8000/api/auth/send`, {
+    //   await axios.post(`https://alfajri.arw.my.id/api/auth/send`, {
     //     subject: 'reminder',
     //     email: email,
     //     body: name

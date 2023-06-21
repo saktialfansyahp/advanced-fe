@@ -150,7 +150,7 @@ export default {
       const lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
       this.lastWeekDate = lastWeek.toISOString();
       
-      axios.get('http://127.0.0.1:8000/api/auth/displayPelanggan', {
+      axios.get('https://alfajri.arw.my.id/api/auth/displayPelanggan', {
         headers:{
           'Authorization': 'Bearer' + localStorage.getItem('access_token')
         }
@@ -182,7 +182,7 @@ export default {
       const lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
       this.lastWeekDate = lastWeek.toISOString();
       
-      axios.get('http://127.0.0.1:8000/api/auth/displayPelanggan', {
+      axios.get('https://alfajri.arw.my.id/api/auth/displayPelanggan', {
         headers:{
           'Authorization': 'Bearer' + localStorage.getItem('access_token')
         }

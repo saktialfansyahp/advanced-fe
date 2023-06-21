@@ -50,7 +50,7 @@ export default {
   },
   methods: {
     fetchData(){
-      axios.get('http://127.0.0.1:8000/api/auth/displayPelanggan', {
+      axios.get('https://alfajri.arw.my.id/api/auth/displayPelanggan', {
         headers:{
           'Authorization': 'Bearer' + localStorage.getItem('access_token')
         }

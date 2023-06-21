@@ -89,7 +89,7 @@ export default {
   },
   methods: {
     cek(no_tagihan, status_tagihan) {
-      axios.post(`http://127.0.0.1:8000/api/auth/updateTransaksi/${no_tagihan}`, {
+      axios.post(`https://alfajri.arw.my.id/api/auth/updateTransaksi/${no_tagihan}`, {
         status_tagihan: status_tagihan,
       }, {
         headers: {
@@ -109,7 +109,7 @@ export default {
       }
     },
     fetchData() {
-      axios.get('http://127.0.0.1:8000/api/auth/getProduk', {
+      axios.get('https://alfajri.arw.my.id/api/auth/getProduk', {
         // headers: {
         //   'Authorization': 'Bearer' + localStorage.getItem('access_token')
         // }
@@ -128,7 +128,7 @@ export default {
         })
     },
     deleteProduct(id) {
-      axios.post(`http://127.0.0.1:8000/api/auth/deleteProduk/${id}`, {
+      axios.post(`https://alfajri.arw.my.id/api/auth/deleteProduk/${id}`, {
         headers: {
           'Authorization': 'Bearer ' + localStorage.getItem('access_token')
         }
@@ -141,7 +141,7 @@ export default {
         .catch(error => console.log(error));
     },
     schedule() {
-      axios.get(`http://127.0.0.1:8000/api/auth/status/reminder`, {
+      axios.get(`https://alfajri.arw.my.id/api/auth/status/reminder`, {
         headers: {
             'Authorization': 'Bearer ' + localStorage.getItem('access_token')
         }

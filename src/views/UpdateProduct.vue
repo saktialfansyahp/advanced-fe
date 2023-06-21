@@ -49,7 +49,7 @@ export default {
   methods: {
     fetchData() {
       const productId = this.$route.params.id
-      axios.get(`http://127.0.0.1:8000/api/auth/getProduk/${productId}`, {
+      axios.get(`https://alfajri.arw.my.id/api/auth/getProduk/${productId}`, {
         headers: {
           'Authorization': 'Bearer' + localStorage.getItem('access_token')
         }
@@ -64,7 +64,7 @@ export default {
     },
     updateProduct() {
       const productId = this.$route.params.id
-      axios.post(`http://127.0.0.1:8000/api/auth/updateProduk/${productId}`, this.product, {
+      axios.post(`https://alfajri.arw.my.id/api/auth/updateProduk/${productId}`, this.product, {
         headers: {
           'Authorization': 'Bearer ' + localStorage.getItem('access_token')
         }

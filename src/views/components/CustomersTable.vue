@@ -88,8 +88,8 @@ export default {
   },
   methods: {
     fetchData(){
-      // axios.get('http://127.0.0.1:8000/api/auth/data', {
-      axios.get('http://127.0.0.1:8000/api/auth/displayPelanggan', {
+      // axios.get('https://alfajri.arw.my.id/api/auth/data', {
+      axios.get('https://alfajri.arw.my.id/api/auth/displayPelanggan', {
         headers:{
           'Authorization': 'Bearer' + localStorage.getItem('access_token')
         }
@@ -104,7 +104,7 @@ export default {
       })
     },
     deleteCustomer(id) {
-      axios.post(`http://127.0.0.1:8000/api/auth/destroy/${id}`, {
+      axios.post(`https://alfajri.arw.my.id/api/auth/destroy/${id}`, {
         headers: {
           'Authorization': 'Bearer ' + localStorage.getItem('access_token')
         }

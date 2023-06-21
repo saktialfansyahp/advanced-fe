@@ -124,7 +124,7 @@ export default {
         this.form.no_tagihan = noTagihanBaru
       },
       async submitForm(){
-          await axios.post('http://127.0.0.1:8000/api/auth/createTransaksi', this.form, {
+          await axios.post('https://alfajri.arw.my.id/api/auth/createTransaksi', this.form, {
               headers:{
               'Authorization': 'Bearer' + localStorage.getItem('access_token')
               }
@@ -140,7 +140,7 @@ export default {
           console.log(this.form)
       },
       async fetchData() {
-        await axios.get('http://127.0.0.1:8000/api/auth/displayPelanggan', {
+        await axios.get('https://alfajri.arw.my.id/api/auth/displayPelanggan', {
           headers:{
             'Authorization': 'Bearer' + localStorage.getItem('access_token')
           }
@@ -160,7 +160,7 @@ export default {
         })
       },
       fetchProduk() {
-      axios.get('http://127.0.0.1:8000/api/auth/getProduk', {
+      axios.get('https://alfajri.arw.my.id/api/auth/getProduk', {
         headers: {
           'Authorization': 'Bearer' + localStorage.getItem('access_token')
         }

@@ -229,7 +229,7 @@ export default {
   methods: {
     // async fetchData(){
     //   const token = localStorage.getItem('access_token')
-    //   await axios.get('http://127.0.0.1:8000/api/auth/data', {
+    //   await axios.get('https://alfajri.arw.my.id/api/auth/data', {
     //     headers:{
     //       'Authorization': 'Bearer' + token
     //     }
@@ -246,7 +246,7 @@ export default {
     // },
     // async logout(){
     //   const token = localStorage.getItem('access_token')
-    //   await axios.post('http://127.0.0.1:8000/api/auth/logout', {
+    //   await axios.post('https://alfajri.arw.my.id/api/auth/logout', {
     //     headers:{
     //       'Authorization': 'Bearer' + token
     //     }

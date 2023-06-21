@@ -320,7 +320,7 @@ export default {
   methods: {
     fetchData(){
       const token = localStorage.getItem('access_token')
-      axios.get('http://127.0.0.1:8000/api/auth/data', {
+      axios.get('https://alfajri.arw.my.id/api/auth/data', {
         headers:{
           'Authorization': 'Bearer' + token
         }

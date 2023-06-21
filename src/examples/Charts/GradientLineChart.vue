@@ -25,7 +25,7 @@ export default {
   methods: {
     getData() {
     axios
-      .get('http://127.0.0.1:8000/api/auth/displayTransaksi', {
+      .get('https://alfajri.arw.my.id/api/auth/displayTransaksi', {
         headers: {
           'Authorization': 'Bearer ' + localStorage.getItem('access_token')
         }

@@ -77,7 +77,7 @@ export default {
   },
   methods: {
     fetchData(){
-      axios.get('http://127.0.0.1:8000/api/auth/displayTransaksi', {
+      axios.get('https://alfajri.arw.my.id/api/auth/displayTransaksi', {
         headers:{
           'Authorization': 'Bearer' + localStorage.getItem('access_token')
         }
@@ -91,7 +91,7 @@ export default {
       })
     },
     deleteCustomer(id) {
-    axios.post(`http://127.0.0.1:8000/api/auth/deleteTransaksi/${id}`, {
+    axios.post(`https://alfajri.arw.my.id/api/auth/deleteTransaksi/${id}`, {
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('access_token')
       }

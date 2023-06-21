@@ -43,7 +43,7 @@ export default {
   methods: {
     fetchData(){
       const id = this.$route.params.id
-      axios.get(`http://127.0.0.1:8000/api/auth/getTransaksi/${id}`, {
+      axios.get(`https://alfajri.arw.my.id/api/auth/getTransaksi/${id}`, {
         headers:{
           'Authorization': 'Bearer' + localStorage.getItem('access_token')
         }
@@ -61,7 +61,7 @@ export default {
     },
     updateStatus(firstname, lastname, no_telp, status_tagihan) {
       const id = this.$route.params.id
-      axios.post(`http://127.0.0.1:8000/api/auth/updateTransaksi/${id}`, this.transactions, {
+      axios.post(`https://alfajri.arw.my.id/api/auth/updateTransaksi/${id}`, this.transactions, {
         headers: {
           'Authorization': 'Bearer ' + localStorage.getItem('access_token')
         }
@@ -70,7 +70,7 @@ export default {
         const name = firstname + ' ' + lastname
         console.log(response.data, no_telp);
         if(status_tagihan == 'Lunas'){
-          axios.post(`http://127.0.0.1:8000/api/auth/lunas`, {
+          axios.post(`https://alfajri.arw.my.id/api/auth/lunas`, {
             no_telp: no_telp,
             name: name,
           },{

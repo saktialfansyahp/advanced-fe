@@ -68,14 +68,14 @@ export default {
   },
   methods: {
     fetchData() {
-      axios.get('http://127.0.0.1:8000/api/auth/status/reminder')
+      axios.get('https://alfajri.arw.my.id/api/auth/status/reminder')
         .then(response => {
           this.status = response.data
           console.log(response.data);
       })
     },
     saveSettings() {
-      axios.post('http://127.0.0.1:8000/api/auth/updateStatus', this.status)
+      axios.post('https://alfajri.arw.my.id/api/auth/updateStatus', this.status)
         .then(response => {
           console.log(response)
           Swal.fire({
