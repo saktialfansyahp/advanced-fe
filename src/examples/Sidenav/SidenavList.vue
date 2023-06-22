@@ -8,7 +8,7 @@
         <sidenav-item
           url="/dashboard"
           :class="getRoute() === 'dashboard-default' ? 'active' : ''"
-          :navText="this.$store.state.isRTL ? 'Table' : 'Dashboard'"
+          :navText="this.$store.state.isRTL ? 'Dashboard' : 'Dashboard'"
         >
           <template v-slot:icon>
             <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>

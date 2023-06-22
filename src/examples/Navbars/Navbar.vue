@@ -10,7 +10,14 @@
     :user-data="user"
   >
     <div class="px-3 py-1 container-fluid">
-      <breadcrumbs :currentPage="currentRouteName" textWhite="text-dark" />
+      <a
+        class="fixed-plugin-button text-dark"
+        @click="handleToggleSidenav"
+      >
+        <i style="cursor: pointer;" v-if="this.$store.state.showSidenav == true" class="ni ni-bold-left"></i>
+        <i style="cursor: pointer;" v-else class="ni ni-bold-right"></i>
+      </a>
+      <breadcrumbs :currentPage="currentRouteName" class="ps-4" textWhite="text-dark" />
 
       <div
         class="mt-2 collapse navbar-collapse mt-sm-0 me-md-0 me-sm-4"
@@ -21,16 +28,6 @@
           class="pe-md-3 d-flex align-items-center"
           :class="this.$store.state.isRTL ? 'me-md-auto' : 'ms-md-auto'"
         >
-          <!-- <div class="input-group">
-            <span class="input-group-text text-body">
-              <i class="fas fa-search" aria-hidden="true"></i>
-            </span>
-            <input
-              type="text"
-              class="form-control"
-              :placeholder="'Type here...'"
-            />
-          </div> -->
         </div>
         <ul class="navbar-nav justify-content-end">
           <li class="nav-item dropdown d-flex align-items-center ps-2 pe-2">
@@ -217,7 +214,7 @@ export default {
     },
     ...mapGetters(['getUser'])
   },
-  props: ["minNav", "textWhite"],
+  props: ["minNav", "textWhite", "sideNav"],
   async created() {
     this.minNav;
     const user = JSON.parse(localStorage.getItem('user'));
@@ -227,6 +224,9 @@ export default {
     // this.fetchData()
   },
   methods: {
+    handleToggleSidenav() {
+      this.$store.state.showSidenav = !this.$store.state.showSidenav;
+    },
     // async fetchData(){
     //   const token = localStorage.getItem('access_token')
     //   await axios.get('https://alfajri.arw.my.id/api/auth/data', {

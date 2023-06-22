@@ -7,8 +7,7 @@
     :toggle="sideNav"
     :custom_class="this.$store.state.mcolor"
     :class="[
-      this.$store.state.isTransparent,
-      this.$store.state.isRTL ? 'fixed-end' : 'fixed-start'
+      this.$store.state.showSidenav ? 'open' : '',
     ]"
     v-if="this.$store.state.showSidenav"
   />
