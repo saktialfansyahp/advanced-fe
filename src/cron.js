@@ -1,8 +1,7 @@
-const CronJob = require('cron').CronJob;
 const axios = require('axios');
 
-const job = new CronJob('* * * * *', function () {
-    // Logika cron job Anda di sini
+export default function handler(req, res) {
+    res.status(200).end('Hello Cron!');
     axios.get(`https://alfajri.arw.my.id/api/auth/status/reminder`)
     .then(response => {
         if (response.data.active == 1) {
@@ -17,7 +16,4 @@ const job = new CronJob('* * * * *', function () {
     .catch(error => {
         console.log(error)
     });
-});
-
-// Memulai cron job
-job.start();
+}
