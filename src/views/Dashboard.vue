@@ -6,8 +6,8 @@
           <div class="col-lg-3 col-md-6 col-12">
             <card
               :title="'Customers'"
-              :value="totalCustomer"
-              :percentage="percentageIncrease" 
+              :value="totalCustomerLastWeek"
+              :percentage="customersIncrease" 
               :iconClass="stats.users.iconClass"
               :iconBackground="stats.users.iconBackground"
               :detail="'since last week'"
@@ -27,35 +27,33 @@
           </div>
           <div class="col-lg-3 col-md-6 col-12">
             <card
-              :title="stats.money.title"
-              :value="stats.money.value"
-              :percentage="stats.money.percentage"
+              :title="'Product'"
+              :value="this.productLastMonth"
+              :percentage="productIncrease"
               :iconClass="stats.money.iconClass"
               :iconBackground="stats.money.iconBackground"
-              :detail="stats.money.detail"
+              :detail="'since last month'"
               directionReverse
             ></card>
           </div>
           <div class="col-lg-3 col-md-6 col-12">
             <card
-              :title="stats.clients.title"
-              :value="stats.clients.value"
-              :percentage="stats.clients.percentage"
+              :title="'Invoice'"
+              :value="invoiceUnpaid"
               :iconClass="stats.clients.iconClass"
               :iconBackground="stats.clients.iconBackground"
               :percentageColor="stats.clients.percentageColor"
-              :detail="stats.clients.detail"
+              :detail="'unpaid invoices status'"
               directionReverse
             ></card>
           </div>
           <div class="col-lg-3 col-md-6 col-12">
             <card
-              :title="stats.sales.title"
-              :value="stats.sales.value"
-              :percentage="stats.sales.percentage"
-              :iconClass="stats.sales.iconClass"
+              :title="'Reminder'"
+              :value="status"
+              :iconClass="'fas fa-bell'"
               :iconBackground="stats.sales.iconBackground"
-              :detail="stats.sales.detail"
+              :detail="detailStatus"
               directionReverse
             ></card>
           </div>
@@ -87,9 +85,16 @@ export default {
     return {
       transactions: [],
       lastWeekDate: null,
+      lastMonthDate: null,
       role: null,
       totalCustomer: "",
-      percentageIncrease: "",
+      totalProduct: "",
+      totalInvoice: "",
+      customersIncrease: "",
+      productIncrease: "",
+      invoiceUnpaid: "",
+      status: "",
+      detailStatus: "",
       stats: {
         money: {
           title: "Today's Money",
@@ -121,7 +126,7 @@ export default {
           value: "$103,430",
           percentage: "+5%",
           iconClass: "ni ni-cart",
-          iconBackground: "bg-gradient-warning",
+          iconBackground: "bg-gradient-dark",
           detail: "than last month",
         },
       },
@@ -140,6 +145,9 @@ export default {
     if (user) {
       this.role = user.role;
     }
+    this.fetchProduct()
+    this.fetchInvoice()
+    this.fetchStatus()
   },
   mounted(){
     this.fetchCustomers()
@@ -169,9 +177,9 @@ export default {
         this.totalCustomer = customers.length;
         this.totalCustomerLastWeek = customersLastWeek.length;
         const percentageIncrease = ((this.totalCustomer - this.totalCustomerLastWeek) / this.totalCustomerLastWeek) * 100;
-        this.percentageIncrease = percentageIncrease.toFixed(2) + "%";
+        this.customersIncrease = percentageIncrease.toFixed(2) + "%";
         console.log(customersLastWeek);
-        console.log(this.percentageIncrease)
+        console.log(this.customersIncrease)
       })
       .catch(error => {
         console.log(error)
@@ -179,34 +187,65 @@ export default {
     },
     fetchProduct() {
       const today = new Date();
-      const lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
-      this.lastWeekDate = lastWeek.toISOString();
+      const lastMonth = new Date(today.getFullYear(), today.getMonth() - 1, today.getDate());
+      this.lastMonthDate = lastMonth.toISOString();
       
-      axios.get('https://alfajri.arw.my.id/api/auth/displayPelanggan', {
+      axios.get('https://alfajri.arw.my.id/api/auth/getProduk', {
         headers:{
           'Authorization': 'Bearer' + localStorage.getItem('access_token')
         }
       })
       .then(response => {
-        this.totalCustomer = response.data.length
-        const customers = response.data;
-        const lastWeekDate = new Date();
-        lastWeekDate.setDate(lastWeekDate.getDate() - 7);
-
-        const customersLastWeek = customers.filter(customer => {
-          const updatedAt = new Date(customer.updated_at);
-          return updatedAt >= lastWeekDate;
+        this.totalProduct = response.data.produk.length
+        console.log(this.totalProduct)
+        const products = response.data.produk;
+        const productsAddedLastMonth = products.filter(product => {
+          const productAddedDate = new Date(product.created_at); // Ganti "addedDate" dengan properti yang sesuai pada objek produk
+          return productAddedDate >= lastMonth && productAddedDate <= today;
         });
 
-        this.totalCustomer = customers.length;
-        this.totalCustomerLastWeek = customersLastWeek.length;
-        const percentageIncrease = ((this.totalCustomer - this.totalCustomerLastWeek) / this.totalCustomerLastWeek) * 100;
-        this.percentageIncrease = percentageIncrease + "%";
-        console.log(customersLastWeek);
-        console.log(this.percentageIncrease)
+        this.productLastMonth = productsAddedLastMonth.length;
+        console.log(this.productLastMonth);
+        const percentage = (this.productLastMonth / this.totalProduct) * 100;
+        this.productIncrease = percentage.toFixed(2) + "%";
       })
       .catch(error => {
         console.log(error)
+      })
+    },
+    fetchInvoice() {
+      const today = new Date();
+      const yesterday = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1);
+      this.yesterdayDate = yesterday.toISOString();
+      
+      axios.get('https://alfajri.arw.my.id/api/auth/displayTransaksi', {
+        headers:{
+          'Authorization': 'Bearer' + localStorage.getItem('access_token')
+        }
+      })
+        .then(response => {
+        this.totalInvoice = Object.keys(response.data).length
+        console.log(this.totalInvoice)
+        const invoice = response.data;
+        const invoicesBelumLunas = Object.keys(invoice).filter(key => invoice[key].status_tagihan === 'Belum Bayar');
+        this.invoiceUnpaid = invoicesBelumLunas.length;
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    },
+    fetchStatus() {
+      axios.get('https://alfajri.arw.my.id/api/auth/status/reminder')
+        .then(response => {
+          const remind = response.data.active
+          if (remind == 1) {
+            this.status = 'Active'
+            this.detailStatus = 'Automatically Reminder'
+          } else {
+            this.status = 'Inactive'
+            this.detailStatus = 'Manually Reminder'
+          }
+          console.log(response.data);
       })
     },
 

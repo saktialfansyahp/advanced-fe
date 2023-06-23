@@ -63,7 +63,7 @@ export default {
   components: {
     
   },
-  created() {
+  mounted() {
     this.fetchData();
   },
   methods: {
