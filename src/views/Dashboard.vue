@@ -95,6 +95,7 @@ export default {
       invoiceUnpaid: "",
       status: "",
       detailStatus: "",
+      time: "",
       stats: {
         money: {
           title: "Today's Money",
@@ -238,9 +239,10 @@ export default {
       axios.get('https://alfajri.arw.my.id/api/auth/status/reminder')
         .then(response => {
           const remind = response.data.active
+          this.time = response.data.time
           if (remind == 1) {
             this.status = 'Active'
-            this.detailStatus = 'Automatically Reminder'
+            this.detailStatus = 'Reminder at ' + this.time
           } else {
             this.status = 'Inactive'
             this.detailStatus = 'Manually Reminder'
