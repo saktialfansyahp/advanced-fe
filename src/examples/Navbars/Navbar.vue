@@ -225,7 +225,8 @@ export default {
   },
   methods: {
     handleToggleSidenav() {
-      this.$store.state.showSidenav = !this.$store.state.showSidenav;
+      // this.$store.state.showSidenav = !this.$store.state.showSidenav;
+      this.$router.back()
     },
     // async fetchData(){
     //   const token = localStorage.getItem('access_token')
